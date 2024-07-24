@@ -18,7 +18,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fxmaster.settings')
 
 django_asgi_app = get_asgi_application()
 
-from fxmaster import routing
+from fxmaster.routing import websocket_urlpatterns
 
 application = ProtocolTypeRouter(
     {
