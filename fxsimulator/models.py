@@ -1,3 +1,9 @@
 from django.db import models
+import time
 
-# Create your models here.
+def current_unix_time():
+    return int(time.time() * 1000)
+
+class Stock(models.Model):
+    period = models.PositiveBigIntegerField(default = current_unix_time)
+    price = models.FloatField()
