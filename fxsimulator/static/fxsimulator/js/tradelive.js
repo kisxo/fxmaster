@@ -105,7 +105,7 @@ const chart = Highcharts.stockChart('container', {
 console.log(stock_data);
 
 const chatSocket = new WebSocket(
-    'ws://'
+    'wss://'
     + window.location.host
     + '/ws/fxupdatechannel/fxupdateroom/'
 );
