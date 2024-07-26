@@ -25,10 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ds&ar=0r81e^@7_jy_o^%^ao=%wmvs#bms*$5xl6)x36x3a@*5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["www.magicminute.online", ".magicminute.online", ".localhost"]
 
+#csrf settings
+CSRF_TRUSTED_ORIGINS = ["https://*.magicminute.online"]
 
 # Application definition
 
@@ -83,6 +85,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
     }
 }
 
