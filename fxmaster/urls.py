@@ -21,4 +21,5 @@ from django.urls import path, include
 urlpatterns = [
     path("fx/", include("fxsimulator.urls")),
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
 ]
