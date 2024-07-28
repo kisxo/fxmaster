@@ -1,0 +1,80 @@
+{% load i18n %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <!--font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!--font-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'fxsimulator/css/base.css' %}" media="screen">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-white py-2 m-0 border">
+        <div class="container-fluid p-0 m-0">
+            <a class="navbar-brand ps-3" style="color: #5046E5;" href="#">Navbar</a>
+            <details class="custom-navbar-toggler me-2" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <summary>
+                    <span id="custom-navbar-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-100 w-100"viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </span>
+                    <span id="custom-navbar-icon-active">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-100 w-100" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                    </span>
+                </summary>
+            </details>
+            <div class="collapse navbar-collapse pt-3 m-0" id="navbarSupportedContent">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link ps-3 custom-nav-link-active inter-400" aria-current="page" href="#">Lobby</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ps-3" href="#">Your Profile</a>
+                    </li>
+                    
+                    
+                    {% url 'account_login' as login_url %}
+                    {% url 'account_signup' as signup_url %}
+                    {% url 'account_logout' as logout_url %}
+                    {% if user.is_authenticated and logout_url %}
+                        <li class="nav-item">
+                            <a class="nav-link ps-3" href="{{ logout_url }}">Logout</a>
+                        </li>
+                    {% elif login_url and signup_url%}
+                        <li class="nav-item">
+                            <a class="nav-link ps-3" href="{{ login_url }}">Log In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-3" href="{{ signup_url }}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    {% if messages %}
+    <div>
+        <strong>{% trans "Messages:" %}</strong>
+        <ul>
+            {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% block body %}
+    {% endblock body %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="{% static 'fxsimulator/js/base.js' %}"></script>
+</body>
+</html>

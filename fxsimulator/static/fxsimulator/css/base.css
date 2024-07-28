@@ -1,0 +1,32 @@
+.nav-link {
+    border-left: solid 5px #ffffff;
+    font-family: 'Inter', system-ui;
+    font-weight: 600;
+}
+
+.custom-nav-link-active {
+    border-left: solid 5px #5046E5;
+    background-color: #EEF2FE;
+    color: #5046E5;
+}
+
+.custom-navbar-toggler {
+    height: 2rem;
+    width: 2rem;
+    color: #777788;
+    & > summary::marker {
+        content: none;
+    }
+}
+
+
+#custom-navbar-icon-active,
+details[open] #custom-navbar-icon {
+    display: none;
+}
+
+details[open] #custom-navbar-icon-active {
+    border-radius: .5rem;
+    border: 2px solid #6960ea;
+    display: inline-block;
+}
