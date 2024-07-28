@@ -1,34 +1,23 @@
+{% extends "fxsimulator/base.html" %}
+
 {% load static %}
+{% block head_title%}Lobby{% endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <!-- <script>
-        let stock_data = JSON.parse('{{data}}')
-    </script> -->
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
-    <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-    <!-- <script src="/static/frontend-libs/apexcharts/apexcharts.js"></script> -->
-    <!-- <script src="/static/frontend-libs/socket-io/socket.io.js"></script> -->
-    <script>
-      let stock_data = JSON.parse("{{ stock_data }}")
-    </script>
-    <script defer src="{% static 'fxsimulator/js/tradelive.js' %}"></script>
+{% block head%}
+<script defer src="https://code.highcharts.com/stock/highstock.js"></script>
+<script defer src="https://code.highcharts.com/modules/price-indicator.js"></script>
+<script>
+    let stock_data = JSON.parse("{{ stock_data }}")
+</script>
+<script defer src="{% static 'fxsimulator/js/tradelive.js' %}"></script>
+<style>
+    #container {
+        height: 400px;
+        min-width: 310px;
+    }
+</style>
+{% endblock%}
 
-    <style>
-        #container {
-            height: 400px;
-            min-width: 310px;
-        }
-
-    </style>
-</head>
-<body>
-    <div id="container"></di
-</body>
-</html>
+{% block body %}
+    <div id="container" class="mt-2"> </div>
+{% endblock %}

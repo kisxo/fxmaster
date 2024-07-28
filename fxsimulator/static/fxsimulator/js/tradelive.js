@@ -1,5 +1,3 @@
-let stock_data = [[1234567890000, 300]]
-
 const chart = Highcharts.stockChart('container', {
     chart: {
         events: {
@@ -36,7 +34,7 @@ const chart = Highcharts.stockChart('container', {
         selected: 0
     },
     title: {
-        text: 'Live random data'
+        text: 'Live EUR/USD'
     },
     exporting: {
         enabled: false
