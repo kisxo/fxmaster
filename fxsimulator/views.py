@@ -20,3 +20,7 @@ def fxtrade(request):
         cache.set("stock_data", stock_data, 5)
 
     return render(request, "fxsimulator/tradelive.html", {"stock_data": stock_data})
+
+@login_required
+def profile(request):
+    return render(request, "fxsimulator/profile.html")
