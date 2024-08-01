@@ -120,3 +120,64 @@ chatSocket.onmessage = function(e) {
 chatSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
 };
+
+
+const time_input = document.querySelector('#time-input');
+const amount_input = document.querySelector('#amount-input');
+document.querySelector('#decrement-time-input').addEventListener("click", () => {
+    if(time_input.value >= 2)
+    {
+        time_input.value--;
+    }
+    else{
+        time_input.value=0;
+    }
+});
+document.querySelector('#increment-time-input').addEventListener("click", () => {
+    if(time_input.value <= 4)
+    {
+        time_input.value++;
+    }
+    else{
+        time_input.value=5;
+    }
+});
+document.querySelector('#decrement-amount-input').addEventListener("click", () => {
+    if(amount_input.value >= 11)
+    {
+        amount_input.value--;
+    }
+    else{
+        amount_input.value=10;
+    }
+});
+document.querySelector('#increment-amount-input').addEventListener("click", () => {
+    if(amount_input.value <= 999)
+    {
+        amount_input.value++;
+    }
+    else{
+        amount_input.value=10000;
+    }
+});
+
+time_input.addEventListener("focusout", () => {
+    if(time_input.value < 1)
+    {
+        time_input.value = 1;
+    }
+    else if(time_input.value > 5)
+    {
+        time_input.value = 5;
+    }
+});
+amount_input.addEventListener("focusout", () => {
+    if(amount_input.value < 10)
+    {
+        amount_input.value = 10;
+    }
+    else if(amount_input.value > 10000)
+    {
+        amount_input.value = 10000;
+    }
+});

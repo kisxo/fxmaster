@@ -10,14 +10,38 @@
     let stock_data = JSON.parse("{{ stock_data }}")
 </script>
 <script defer src="{% static 'fxsimulator/js/tradelive.js' %}"></script>
-<style>
-    #container {
-        height: 400px;
-        min-width: 310px;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'fxsimulator/css/tradelive.css' %}" media="screen">
 {% endblock%}
 
 {% block body %}
-    <div id="container" class="mt-2"> </div>
+<div id="container" class="mt-2">
+</div>
+<div class="d-flex flex-column my-2 px-1">
+    <span>Fixed Time Mode</span>
+    <div class="d-flex my-2">
+        <div class="d-flex justify-content-start form-floating trade-input-container w-50">
+            <button type="button" id="decrement-time-input" class="btn">-</button>
+            <input type="number" class="trade-input" id="time-input" placeholder="1-5 Minute" min="1" max="5">
+            <!-- <label for="time-input">Minute</label> -->
+            <button type="button" id="increment-time-input" class="btn">+</button>
+        </div>
+        <div class="d-flex justify-content-end form-floating trade-input-container w-50">
+            <button type="button" id="decrement-amount-input" class="btn">-</button>
+            <input type="number" class="trade-input" id="amount-input" placeholder="&#8377; 10-10000" min="10" max="10000">
+            <button type="button" id="increment-amount-input" class="btn">+</button>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between trade-button-container">
+        <button type="button" id="down-button" class="btn btn-danger">
+            <span>Down</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1" />
+            </svg></button>
+        <button type="button" id="Up-button" class="btn btn-success">
+            <span>Up</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+            </svg></button>
+    </div>
+</div>
 {% endblock %}
