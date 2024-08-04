@@ -1,6 +1,6 @@
 #container {
     height: 400px;
-    min-width: 310px;
+    min-width: 155px;
 }
 
 .trade-input{
@@ -24,7 +24,7 @@
         width: 20%;
     }
     
-    & > *, & > *:active, & >*:focus {
+    & > *, & > *:active, & >*:focus, & > *:hover {
         color: #222222;
         background-color: #eeeef2;
         border-radius: .3rem;

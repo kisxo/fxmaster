@@ -21,13 +21,23 @@
     {% endblock head%}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-white p-0 m-0 border box-shadow">
+    <nav class="navbar bg-white p-0 m-0 border box-shadow">
         <div class="container-fluid p-0 m-0">
-            <a class="navbar-brand ps-3 py-3" style="color: #5046E5;" href="/">Navbar</a>
+            <a class="navbar-brand ms-3 my-3 bg-info-subtle" href="/">
+              <svg xmlns="http://www.w3.org/2000/svg" class="custom-logo" viewBox="0 0 500 200" fill="currentColor">
+                <path d="M250 25.5V0H300L375 75L450 0H500V25L375 150L250 25.5Z" fill="#5865F2"/>
+                <path d="M93 100L0 0H65L157 100L65 200H0L93 100Z" fill="#5865F2"/>
+                <path d="M250 60V200H300V110L250 60Z" fill="white"/>
+                <path d="M450 200H500V60L450 110V200Z" fill="white"/>
+                <path d="M185 0L143 46L175 81L250 0H185Z" fill="white"/>
+                <path d="M143 154L175 119L250 200H185L143 154Z" fill="white"/>
+              </svg>
+              FxMaster
+            </a>
             <details class="custom-navbar-toggler me-2" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <summary>
                     <span id="custom-navbar-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-100 w-100"viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-100 w-100" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                         </svg>
                     </span>
@@ -39,27 +49,36 @@
                 </summary>
             </details>
             <div class="collapse navbar-collapse p-0 m-0 border-top" id="navbarSupportedContent">
-                <ul class="navbar-nav flex-column">
+                <ul class="navbar-nav">
                     {% url 'fxsimulator:fxtrade' as lobby_url %}
                     {% if lobby_url %}
+                    <li class="nav-item dropdown">
                         <a class="nav-link ps-3 {% if request.path == lobby_url %} custom-nav-link-active {% endif %}" aria-current="page" href="{{ lobby_url }}">Lobby</a>
+                    </li>
                     {% endif %}
                     
                     {% url 'fxsimulator:profile' as profile_url %}
                     {% if profile_url %}
-                        <a class="nav-link ps-3 {% if request.path == profile_url %} custom-nav-link-active {% endif %}" href="{{ profile_url }}">Your Profile</a>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link ps-3 {% if request.path == profile_url %} custom-nav-link-active {% endif %}" href="{{ profile_url }}">Your Profile</a>
+                    </li>
                     {% endif %}
                     
                     {% url 'account_login' as login_url %}
                     {% url 'account_signup' as signup_url %}
                     {% url 'account_logout' as logout_url %}
                     {% if user.is_authenticated and logout_url %}
-                    <a class="nav-link ps-3" href="{{ logout_url }}">Logout</a>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link ps-3" href="{{ logout_url }}">Logout</a>
+                    </li>
 
                     {% elif login_url and signup_url%}
-                    <a class="nav-link ps-3" href="{{ login_url }}">Log In</a>
-                    <a class="nav-link ps-3" href="{{ signup_url }}">Register</a>
-
+                    <li class="nav-item dropdown">
+                      <a class="nav-link ps-3" href="{{ login_url }}">Log In</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link ps-3" href="{{ signup_url }}">Register</a>
+                    </li>
                     {% endif %}
                 </ul>
             </div>
