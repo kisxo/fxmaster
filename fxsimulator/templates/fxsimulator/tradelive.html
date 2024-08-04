@@ -16,19 +16,19 @@
 {% block body %}
 <div id="container" class="mt-2">
 </div>
-<div class="d-flex flex-column my-2 px-1">
+<div class="d-flex flex-column my-2 px-1 bg-body-tertiary">
     <span>Fixed Time Mode</span>
     <div class="d-flex my-2">
         <div class="d-flex justify-content-start form-floating trade-input-container w-50">
-            <button type="button" id="decrement-time-input" class="btn">-</button>
-            <input type="number" class="trade-input" id="time-input" placeholder="1-5 Minute" min="1" max="5">
+            <button type="button" id="decrement-time-input" class="custom-input-btn">-</button>
+            <input type="number" class="trade-input" id="time-input" placeholder="&#9202; 1-5 Minute" min="1" max="5">
             <!-- <label for="time-input">Minute</label> -->
-            <button type="button" id="increment-time-input" class="btn">+</button>
+            <button type="button" id="increment-time-input" class="custom-input-btn">+</button>
         </div>
         <div class="d-flex justify-content-end form-floating trade-input-container w-50">
-            <button type="button" id="decrement-amount-input" class="btn">-</button>
+            <button type="button" id="decrement-amount-input" class="custom-input-btn">-</button>
             <input type="number" class="trade-input" id="amount-input" placeholder="&#8377; 10-10000" min="10" max="10000">
-            <button type="button" id="increment-amount-input" class="btn">+</button>
+            <button type="button" id="increment-amount-input" class="custom-input-btn">+</button>
         </div>
     </div>
     <div class="d-flex flex-row justify-content-between trade-button-container">

@@ -124,13 +124,14 @@ chatSocket.onclose = function(e) {
 
 const time_input = document.querySelector('#time-input');
 const amount_input = document.querySelector('#amount-input');
+
 document.querySelector('#decrement-time-input').addEventListener("click", () => {
     if(time_input.value >= 2)
     {
         time_input.value--;
     }
     else{
-        time_input.value=0;
+        time_input.value=1;
     }
 });
 document.querySelector('#increment-time-input').addEventListener("click", () => {

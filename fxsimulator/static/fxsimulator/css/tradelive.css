@@ -11,26 +11,32 @@
 .trade-input-container{
     color: #eeeeee;
     & > input {
+        background-color: #EEEEF2;
         text-align: center;
         margin: 0 2px 0 2px;
         width: 56%;
+        border-radius: .3rem;
     }
     
     & > input:focus{
         outline: 2px solid #cccccf;
     }
-    
-    & > button{
-        width: 20%;
-    }
-    
-    & > *, & > *:active, & >*:focus, & > *:hover {
-        color: #222222;
-        background-color: #eeeef2;
-        border-radius: .3rem;
-    }
 }
 
+.custom-input-btn{
+    padding: .5rem 0 .5rem 0;
+    outline: none;
+    border: none;
+    width: 20%;
+    color: #222222;
+    background-color: #eeeef2;
+    border-radius: .3rem;
+}
+
+.custom-input-btn:active{
+    transform: scale(.90);
+
+}
 .trade-button-container{
     & > button {
         width: 49%;
