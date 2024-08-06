@@ -21,6 +21,7 @@ class Order(models.Model):
     order_duration = models.SmallIntegerField()
     order_side = models.BooleanField()
     order_amount = models.FloatField()
+    order_status = models.BooleanField(default=False)
     
     #calculate values at closing
     order_result = models.BooleanField(default=None, null=True)#update at closing
