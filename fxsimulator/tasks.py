@@ -57,4 +57,4 @@ def stockSimulator():
     stock_data = [[entry.period, entry.price] for entry in stock_entries]
     #store the formated data in cache
     cache.set("stock_data", stock_data, 5)
-
+    cache.set("current_stock", stock_entries.last())
