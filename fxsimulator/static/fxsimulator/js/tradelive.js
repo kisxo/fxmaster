@@ -153,7 +153,11 @@ document.querySelector('#decrement-amount-input').addEventListener("click", () =
     }
 });
 document.querySelector('#increment-amount-input').addEventListener("click", () => {
-    if(amount_input.value <= 999)
+    if (amount_input.value < 10)
+    {
+        amount_input.value = 10;
+    }
+    else if (amount_input.value <= 999)
     {
         amount_input.value++;
     }
@@ -161,7 +165,6 @@ document.querySelector('#increment-amount-input').addEventListener("click", () =
         amount_input.value=10000;
     }
 });
-
 time_input.addEventListener("focusout", () => {
     if(time_input.value < 1)
     {
@@ -182,3 +185,60 @@ amount_input.addEventListener("focusout", () => {
         amount_input.value = 10000;
     }
 });
+
+document.querySelector("#down-button").addEventListener("click", () => {
+    open_trade(false);
+});
+
+document.querySelector("#up-button").addEventListener("click", () => {
+    open_trade(true);
+});
+
+const order_url = "https://" + window.location.host + "/fx/order/";
+
+function open_trade(in_side){
+    console.log(csrftoken)
+    
+    if( time_input.value >= 1 & time_input.value <=5 & amount_input.value >= 10 & amount_input.value <= 10000)
+    {
+        console.log(time_input.value)
+        console.log(amount_input.value)
+        console.log(in_side)
+        
+        order_data = {
+            time : time_input.value,
+            side : in_side,
+            amount : amount_input.value
+        }
+        time_input.value = '';
+        amount_input.value = '';
+
+    }
+    else {
+        return;
+    }
+    
+    fetch(order_url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(order_data),
+      })
+    .then(response => {
+        if (!response.ok) 
+        {
+            throw new Error('Trade order error');
+        }
+        return response.json();
+    })
+    .then(order_response => {
+        // Process the newly created user data
+        console.log('Order Response Data:', order_response);
+    })
+    .catch(error => {
+          console.error('Error:', error);
+    });
+}

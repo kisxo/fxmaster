@@ -8,6 +8,7 @@
 <script defer src="https://code.highcharts.com/modules/price-indicator.js"></script>
 <script>
     let stock_data = JSON.parse("{{ stock_data }}")
+    let csrftoken = '{{ csrf_token }}';
 </script>
 <script defer src="{% static 'fxsimulator/js/tradelive.js' %}"></script>
 <link rel="stylesheet" href="{% static 'fxsimulator/css/tradelive.css' %}" media="screen">
