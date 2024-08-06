@@ -21,14 +21,18 @@ class Order(models.Model):
     order_duration = models.SmallIntegerField()
     order_side = models.BooleanField()
     order_amount = models.FloatField()
-    order_result = models.BooleanField(default=None)
-    order_final_amount = models.FloatField(default=None)
-    order_diff = models.FloatField(default=None)
     
+    #calculate values at closing
+    order_result = models.BooleanField(default=None, null=True)#update at closing
+    order_final_amount = models.FloatField(default=None, null=True)#update at closing
+    order_diff = models.FloatField(default=None, null=True)#update at closing
+    
+    #opening data
     start_period_id = models.PositiveIntegerField()
     start_period = models.PositiveBigIntegerField()
     start_period_price = models.FloatField()
     
+    #closing data
     end_period_id = models.PositiveIntegerField()
-    end_period = models.PositiveBigIntegerField(default = None)
-    end_period_price = models.FloatField(default = None)
+    end_period = models.PositiveBigIntegerField(default = None, null=True)#update at closing
+    end_period_price = models.FloatField(default = None, null=True)#update at closing
