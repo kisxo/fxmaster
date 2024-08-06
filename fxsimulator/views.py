@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseBadRequest
 from .models import User
 import json
+from django.forms.models import model_to_dict
+
 
 def index(request):
     return render(request, "fxsimulator/index.html")
@@ -52,8 +54,9 @@ def fxorder(request):
         current_user.balance = current_user.balance - in_order_amount
         current_user.save()
     
-    in_end_period_id = current_stock_data.id + (12 * in_order_duration)
+    in_end_period_id = current_stock_data.id + (12 * in_order_duration)# 60 sec / 5 sec = 12 sec. Multiply every minute by 12
+    in_end_period = current_stock_data.period + (60000 * in_order_duration)# 1000 millisec = 1 sec. 60,000 = 1 min
     
-    Order(user_id = current_user, order_duration = in_order_duration, order_side = in_order_side, order_amount = in_order_amount, start_period_id = current_stock_data.id, start_period = current_stock_data.period, start_period_price = current_stock_data.price, end_period_id = in_end_period_id).save()
-    
-    return JsonResponse({ 'status': 'success', 'balance': current_user.balance})
+    current_order= Order.objects.create(user_id = current_user, order_duration = in_order_duration, order_side = in_order_side, order_amount = in_order_amount, start_period_id = current_stock_data.id, start_period = current_stock_data.period, start_period_price = current_stock_data.price, end_period_id = in_end_period_id, end_period = in_end_period)
+    current_order_json = model_to_dict(current_order)
+    return JsonResponse({ 'status': 'success', 'balance': current_user.balance, 'order': current_order_json})

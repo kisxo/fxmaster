@@ -4,7 +4,7 @@ from asgiref.sync import async_to_sync
 import random
 import time 
 import math
-from fxsimulator.models import Stock
+from fxsimulator.models import Stock, Order, User
 from django.core.cache import cache
 
 channel_layer = get_channel_layer()
@@ -13,6 +13,7 @@ room_id = "fxupdateroom"
 
 @shared_task
 def stockSimulator():
+    #price simulation start
     try:
         last_stock_price = Stock.objects.all().order_by('-period')[0:1].get().price
     except:
@@ -58,3 +59,53 @@ def stockSimulator():
     #store the formated data in cache
     cache.set("stock_data", stock_data, 5)
     cache.set("current_stock", stock_entries.last())
+    #price simulation end
+    
+    #order calculation start
+    current_stock = stock_entries.last()
+    orders = Order.objects.filter(end_period_id = current_stock.id)
+    
+    print("\nprocess\n")
+    print(current_stock.id)
+    print('\n')
+    for order in orders:
+        print('processing orders')
+        order.end_period = current_stock.period
+        order.end_period_price = current_stock.price
+        user = User.objects.get(id = order.user_id.id)
+        
+        #side up
+        if order.order_side:
+            #picked up and profit
+            if order.start_period_price < order.end_period_price:
+                order.order_result = True
+            #picked up and loss
+            else:
+                order.order_result = False
+            #up ratio
+            value_change_ratio =  order.end_period_price / order.start_period_price
+        #side down 
+        else:
+            #picked down and profit
+            if order.start_period_price > order.end_period_price:
+                order.order_result = True
+            #picked down and loss
+            else:
+                order.order_result = False
+            #down ratio
+            value_change_ratio =  order.start_period_price / order.end_period_price
+        
+        #final amount calculation after closing 
+        if order.order_result:
+            order.order_final_amount = order.order_amount * value_change_ratio
+        else:
+            order.order_final_amount = order.order_amount / value_change_ratio
+            
+        order.order_diff = order.order_final_amount - order.order_amount
+        
+        user.balance = user.balance + order.order_final_amount
+        
+        order.order_status = True
+        order.save()
+        user.save()
+        
