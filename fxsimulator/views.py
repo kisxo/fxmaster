@@ -24,7 +24,8 @@ def fxtrade(request):
         #store the formated data in cache
         cache.set("stock_data", stock_data, 5)
 
-    return render(request, "fxsimulator/tradelive.html", {"stock_data": stock_data})
+    #current_order_json = model_to_dict(Order.objects.filter(user_id = request.user))
+    return render(request, "fxsimulator/tradelive.html", {"stock_data": stock_data, "orders": Order.objects.filter(user_id = request.user).order_by('-id')})
 
 @login_required
 def profile(request):

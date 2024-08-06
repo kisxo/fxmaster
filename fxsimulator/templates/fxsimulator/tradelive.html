@@ -15,6 +15,7 @@
 {% endblock%}
 
 {% block body %}
+<h5 class="p-2"> Balance &#x20b9; <span id="money"> {{ user.balance|floatformat:3 }}</span> </h5>
 <div id="container" class="mt-2">
 </div>
 <div class="d-flex flex-column my-2 px-1 bg-body-tertiary">
@@ -45,4 +46,10 @@
             </svg></button>
     </div>
 </div>
+
+<ul class="list-group">
+{% for order in orders%}
+    <li class="list-group-item">amount={{order.order_amount |floatformat:3 }}, result={{order.order_result}}, status={{order.order_status}}, finalAmount={{order.order_final_amount | floatformat:3 }}</li>
+{% endfor %}
+</ul>
 {% endblock %}

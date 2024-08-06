@@ -195,7 +195,7 @@ document.querySelector("#up-button").addEventListener("click", () => {
 });
 
 const order_url = "https://" + window.location.host + "/fx/order/";
-
+money = document.querySelector("#money");
 function open_trade(in_side){
     console.log(csrftoken)
     
@@ -235,6 +235,11 @@ function open_trade(in_side){
         return response.json();
     })
     .then(order_response => {
+        if (order_response.status == 'success')
+        {
+            money.innerHTML = order_response.balance.toFixed(3);
+        }
+        
         // Process the newly created user data
         console.log('Order Response Data:', order_response);
     })
