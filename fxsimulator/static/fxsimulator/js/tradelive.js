@@ -1,5 +1,3 @@
-let stock_data = [[1234567890000, 300]]
-
 const chart = Highcharts.stockChart('container', {
     chart: {
         events: {
@@ -36,7 +34,7 @@ const chart = Highcharts.stockChart('container', {
         selected: 0
     },
     title: {
-        text: 'Live random data'
+        text: 'Live EUR/USD'
     },
     exporting: {
         enabled: false
@@ -122,3 +120,130 @@ chatSocket.onmessage = function(e) {
 chatSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
 };
+
+
+const time_input = document.querySelector('#time-input');
+const amount_input = document.querySelector('#amount-input');
+
+document.querySelector('#decrement-time-input').addEventListener("click", () => {
+    if(time_input.value >= 2)
+    {
+        time_input.value--;
+    }
+    else{
+        time_input.value=1;
+    }
+});
+document.querySelector('#increment-time-input').addEventListener("click", () => {
+    if(time_input.value <= 4)
+    {
+        time_input.value++;
+    }
+    else{
+        time_input.value=5;
+    }
+});
+document.querySelector('#decrement-amount-input').addEventListener("click", () => {
+    if(amount_input.value >= 11)
+    {
+        amount_input.value--;
+    }
+    else{
+        amount_input.value=10;
+    }
+});
+document.querySelector('#increment-amount-input').addEventListener("click", () => {
+    if (amount_input.value < 10)
+    {
+        amount_input.value = 10;
+    }
+    else if (amount_input.value <= 999)
+    {
+        amount_input.value++;
+    }
+    else{
+        amount_input.value=10000;
+    }
+});
+time_input.addEventListener("focusout", () => {
+    if(time_input.value < 1)
+    {
+        time_input.value = 1;
+    }
+    else if(time_input.value > 5)
+    {
+        time_input.value = 5;
+    }
+});
+amount_input.addEventListener("focusout", () => {
+    if(amount_input.value < 10)
+    {
+        amount_input.value = 10;
+    }
+    else if(amount_input.value > 10000)
+    {
+        amount_input.value = 10000;
+    }
+});
+
+document.querySelector("#down-button").addEventListener("click", () => {
+    open_trade(false);
+});
+
+document.querySelector("#up-button").addEventListener("click", () => {
+    open_trade(true);
+});
+
+const order_url = "https://" + window.location.host + "/fx/order/";
+money = document.querySelector("#money");
+function open_trade(in_side){
+    console.log(csrftoken)
+    
+    if( time_input.value >= 1 & time_input.value <=5 & amount_input.value >= 10 & amount_input.value <= 10000)
+    {
+        console.log(time_input.value)
+        console.log(amount_input.value)
+        console.log(in_side)
+        
+        order_data = {
+            time : time_input.value,
+            side : in_side,
+            amount : amount_input.value
+        }
+        time_input.value = '';
+        amount_input.value = '';
+
+    }
+    else {
+        return;
+    }
+    
+    fetch(order_url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(order_data),
+      })
+    .then(response => {
+        if (!response.ok) 
+        {
+            throw new Error('Trade order error');
+        }
+        return response.json();
+    })
+    .then(order_response => {
+        if (order_response.status == 'success')
+        {
+            money.innerHTML = order_response.balance.toFixed(3);
+        }
+        
+        // Process the newly created user data
+        console.log('Order Response Data:', order_response);
+    })
+    .catch(error => {
+          console.error('Error:', error);
+    });
+}

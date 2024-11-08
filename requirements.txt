@@ -1,0 +1,8 @@
+django
+django-allauth
+daphne
+channels
+channels-redis
+celery
+redis
+django_celery_beat

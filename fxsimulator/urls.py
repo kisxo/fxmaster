@@ -3,6 +3,7 @@ from . import views
 
 app_name = "fxsimulator"
 urlpatterns = [
-    path("", views.index, name="index"),
-   # path("pick/<int:side>/<int:amount>", views.pick, name="pick"),
+    path("", views.fxtrade, name="fxtrade"),
+    path("order/", views.fxorder, name="fxorder"),
+    path("accounts/profile/", views.profile, name="profile"),
 ]
