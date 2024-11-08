@@ -47,9 +47,25 @@
     </div>
 </div>
 
-<ul class="list-group">
-{% for order in orders%}
-    <li class="list-group-item">amount={{order.order_amount |floatformat:3 }}, result={{order.order_result}}, status={{order.order_status}}, finalAmount={{order.order_final_amount | floatformat:3 }}</li>
-{% endfor %}
-</ul>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Period</th>
+      <th scope="col">Status</th>
+      <th scope="col">Result</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders%}
+    <tr>
+      <td>{{order.start_period}}</td>
+      <td>{{order.order_status}}</td>
+      <td>{{order.order_result}}</td>
+      <td>{{order.order_amount |floatformat:3 }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 {% endblock %}
