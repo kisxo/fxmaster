@@ -68,40 +68,30 @@ def stockSimulator():
     print("\nprocess\n")
     print(current_stock.id)
     print('\n')
+    
+    # process orders
     for order in orders:
         print('processing orders')
         order.end_period = current_stock.period
         order.end_period_price = current_stock.price
         user = User.objects.get(id = order.user_id.id)
         
-        #side up
-        if order.order_side:
-            #picked up and profit
-            if order.start_period_price < order.end_period_price:
-                order.order_result = True
-            #picked up and loss
-            else:
-                order.order_result = False
-            #up ratio
-            value_change_ratio =  order.end_period_price / order.start_period_price
-        #side down 
+        #case 1 price goes up
+        if order.start_period_price < order.end_period_price and order.order_side:
+          order.order_result = True
+          order.order_final_amount = order.order_amount * .8
+        # case 2 price goes down
+        elif order.start_period_price > order.end_period_price and not order.order_side:
+          order.order_result = True
+          order.order_final_amount = order.order_amount * .8
+        # case 3 price remains same
+        elif order.start_period_price == order.end_period_price:
+          order.order_result = True
+          order.order_final_amount = order.order_amount * .8
         else:
-            #picked down and profit
-            if order.start_period_price > order.end_period_price:
-                order.order_result = True
-            #picked down and loss
-            else:
-                order.order_result = False
-            #down ratio
-            value_change_ratio =  order.start_period_price / order.end_period_price
+          order.order_result = False
+          order_final_amount = 0
         
-        #final amount calculation after closing 
-        if order.order_result:
-            order.order_final_amount = order.order_amount * value_change_ratio
-        else:
-            order.order_final_amount = order.order_amount / value_change_ratio
-            
-        order.order_diff = order.order_final_amount - order.order_amount
         
         user.balance = user.balance + order.order_final_amount
         
