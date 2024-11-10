@@ -37,3 +37,5 @@ class Order(models.Model):
     end_period_id = models.PositiveIntegerField()
     end_period = models.PositiveBigIntegerField(default = None, null=True)#update at closing
     end_period_price = models.FloatField(default = None, null=True)#update at closing
+    def __str__(self):
+      return f'{self.id}, {self.user_id}'
