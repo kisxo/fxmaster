@@ -1,5 +1,8 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from fxsimulator import views
+from fxsimulator.views import OrderViewSet
+from rest_framework.routers import DefaultRouter
+
 
 app_name = "fxsimulator"
 urlpatterns = [
@@ -7,3 +10,6 @@ urlpatterns = [
     path("order/", views.fxorder, name="fxorder"),
     path("accounts/profile/", views.profile, name="profile"),
 ]
+router = DefaultRouter()
+router.register(r'orders', OrderViewSet, basename='order')
+urlpatterns += router.urls

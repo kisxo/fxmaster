@@ -7,6 +7,9 @@ from .models import User
 import json
 from django.forms.models import model_to_dict
 
+from rest_framework import permissions, viewsets, generics
+from .serializers import OrderSerializer
+
 
 def index(request):
     return render(request, "fxsimulator/index.html")
@@ -61,3 +64,10 @@ def fxorder(request):
     current_order= Order.objects.create(user_id = current_user, order_duration = in_order_duration, order_side = in_order_side, order_amount = in_order_amount, start_period_id = current_stock_data.id, start_period = current_stock_data.period, start_period_price = current_stock_data.price, end_period_id = in_end_period_id, end_period = in_end_period)
     current_order_json = model_to_dict(current_order)
     return JsonResponse({ 'status': 'success', 'balance': current_user.balance, 'order': current_order_json})
+
+
+# api end-point handlers
+class OrderViewSet(viewsets.ModelViewSet):
+  queryset = Order.objects.all()
+  serializer_class = OrderSerializer
+  
