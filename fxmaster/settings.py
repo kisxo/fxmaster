@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'channels',
     'allauth',
     'allauth.account',
+    'allauth.headless',
     'rest_framework',
 ]
 
@@ -183,6 +184,13 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by email
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+# These are the URLs to be implemented by your single-page application.
+HEADLESS_FRONTEND_URLS = {
+    "account_confirm_email": "https://www.magicminute.online/account/verify-email/{key}",
+    "account_reset_password_from_key": "https://www.magicminute.online/account/password/reset/key/{key}",
+    "account_signup": "https://www.magicminute.online/account/signup",
+}
 
 SOCIALACCOUNT_PROVIDERS = {}
 LOGIN_REDIRECT_URL = '/'

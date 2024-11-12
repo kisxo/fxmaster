@@ -24,4 +24,6 @@ urlpatterns = [
     path("fx/", include("fxsimulator.urls")),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    # Include the allauth API endpoints:
+    path("_allauth/", include("allauth.headless.urls")),
 ]
