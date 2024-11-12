@@ -7,7 +7,7 @@ from .models import User
 import json
 from django.forms.models import model_to_dict
 
-from rest_framework import permissions, viewsets, generics
+from rest_framework import permissions, viewsets, generics, mixins
 from .serializers import OrderSerializer
 
 
@@ -67,7 +67,7 @@ def fxorder(request):
 
 
 # api end-point handlers
-class OrderViewSet(viewsets.ModelViewSet):
+class OrderViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin):
+  
   queryset = Order.objects.all()
   serializer_class = OrderSerializer
-  
