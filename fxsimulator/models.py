@@ -17,25 +17,36 @@ class Stock(models.Model):
         return f'{self.period}, {self.price}'
     
 class Order(models.Model):
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    order_duration = models.SmallIntegerField()
-    order_side = models.BooleanField()
-    order_amount = models.FloatField()
-    order_status = models.BooleanField(default=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    #fixed trade duration in minutes
+    duration = models.SmallIntegerField()
+    #profit percentage
+    profit_margin = models.FloatField()
+    side_choice = {
+      "UP": "UP",
+      "DOWN": "DOWN",
+    }
+    side = models.CharField(max_length=4, choices=side_choice)
+    amount = models.FloatField()
+    status = models.BooleanField(default=False)# update at closing
     
     #calculate values at closing
-    order_result = models.BooleanField(default=None, null=True)#update at closing
-    order_final_amount = models.FloatField(default=None, null=True)#update at closing
-    order_diff = models.FloatField(default=None, null=True)#update at closing
+    result_choice = {
+      "Pending": "Pending",
+      "Profit": "Profit",
+      "Loss": "Loss",
+    }
+    result = models.CharField(max_length=7, choices=result_choice)#update at closing
+    amount_diff = models.FloatField(default=None, null=True)#update at closing
     
     #opening data
-    start_period_id = models.PositiveIntegerField()
-    start_period = models.PositiveBigIntegerField()
-    start_period_price = models.FloatField()
+    opening_id = models.PositiveIntegerField()
+    opening_period = models.PositiveBigIntegerField()
+    opening_price = models.FloatField()
     
     #closing data
-    end_period_id = models.PositiveIntegerField()
-    end_period = models.PositiveBigIntegerField(default = None, null=True)#update at closing
-    end_period_price = models.FloatField(default = None, null=True)#update at closing
+    closing_id = models.PositiveIntegerField()
+    closing_period = models.PositiveBigIntegerField(default = None, null=True)#update at closing
+    closing_price = models.FloatField(default = None, null=True)#update at closing
     def __str__(self):
       return f'{self.id}, {self.user_id}'

@@ -12,4 +12,5 @@ db.sqlite3-journal
 *.rdb
 *.out
 migration/
+migrations/
 images/
