@@ -36,7 +36,7 @@ class Order(models.Model):
       "Profit": "Profit",
       "Loss": "Loss",
     }
-    result = models.CharField(max_length=7, choices=result_choice)#update at closing
+    result = models.CharField(max_length=7, choices=result_choice, default="Pending")#update at closing
     amount_diff = models.FloatField(default=None, null=True)#update at closing
     
     #opening data
