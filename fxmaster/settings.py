@@ -36,7 +36,8 @@ CSRF_TRUSTED_ORIGINS = ["https://*.magicminute.online"]
 
 INSTALLED_APPS = [
     'daphne',
-    'fxsimulator.apps.FxsimulatorConfig',
+    'fxmaster',
+    'fxsimulator',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,15 +50,18 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.headless',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
 ]
 
 AUTH_USER_MODEL = 'fxsimulator.User'
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+      'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated',
     ]
 }
 
