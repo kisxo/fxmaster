@@ -6,10 +6,9 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from .models import User
 import json
 from django.forms.models import model_to_dict
-
+from .filters import IsOwnerFilterBackend
 from rest_framework import permissions, viewsets, generics, mixins
 from .serializers import OrderSerializer
-
 
 def index(request):
     return render(request, "fxsimulator/index.html")
@@ -67,7 +66,9 @@ def fxorder(request):
 
 
 # api end-point handlers
-class OrderViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin):
+class OrderViewSet(viewsets.ReadOnlyModelViewSet, mixins.CreateModelMixin):
   
   queryset = Order.objects.all()
+  filter_backends = [IsOwnerFilterBackend]
   serializer_class = OrderSerializer
+  
