@@ -11,3 +11,9 @@
   -Allauth login api is used to retrive user data while JWT login api is used get JWT token to use in api authentication. To use rest framework JWT token for authentication, add JWT token in request header as `Authenticate: Bearer xxxxxxxxxTokenxxxxxxxxxx`
   
   -Set default authentication class to rest framework JWT authenticator
+
+# Start svelte-kit frontend as a SPA which can be hosted by nginx  
+
+  -Install static adapter using `npm i @sveltejs/adapter-static` and edit the svelte.config.js file to use this adapter
+
+  -Create +layout.js file if not present in {root}/routes/ folder and set ssr and prerender value to false. If prerender is not present index.html file does not generate
