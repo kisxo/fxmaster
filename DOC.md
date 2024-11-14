@@ -20,4 +20,4 @@
 
 # Solve 404/403 error in SPA client side routing. Caused when page is refreshed or other route like '/foo/bar' is directly accessed instead of '/'
 
-  -In nginx configuration file use `location / { ...... try_files $uri $uri/ /index.html }` instead of `location / { ...... index index.html }` as it catches any route after the '/' and forwards it to client side router in index.html. Now if any non valid route is accessed the client side router will be responsible for handing 404/403 errors and nginx does gets involve.
+  -In nginx configuration file use `location / { ...... try_files $uri $uri/ /index.html }` instead of `location / { ...... index index.html }` as it catches any route after the '/' and forwards it to client side router in index.html. Now if any non valid route is accessed the client side router will be responsible for handing 404/403 errors and nginx does not gets involve.
