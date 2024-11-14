@@ -17,3 +17,7 @@
   -Install static adapter using `npm i @sveltejs/adapter-static` and edit the svelte.config.js file to use this adapter
 
   -Create +layout.js file if not present in {root}/routes/ folder and set ssr and prerender value to false. If prerender is not present index.html file does not generate
+
+# Solve 404/403 error in SPA client side routing. Caused when page is refreshed or other route like '/foo/bar' is directly accessed instead of '/'
+
+  -In nginx configuration file use `location / { ...... try_files $uri $uri/ /index.html }` instead of `location / { ...... index index.html }` as it catches any route after the '/' and forwards it to client side router in index.html. Now if any non valid route is accessed the client side router will be responsible for handing 404/403 errors and nginx does gets involve.
