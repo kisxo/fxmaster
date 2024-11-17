@@ -15,6 +15,7 @@
   }
 
   let navLinks = [
+    { name: "Lobby", path: "/lobby"},
     { name: "Profile", path: "/profile"},
     { name: "Logout",  path: "/logout"},
   ]
