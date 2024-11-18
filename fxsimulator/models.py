@@ -9,6 +9,17 @@ class User(AbstractUser):
 def current_unix_time():
     return int(time.time() * 1000)
 
+class Forex(models.Model):
+    period = models.PositiveBigIntegerField(default = current_unix_time)
+    #open price
+    opening = models.FloatField()
+    #highest price 
+    highest = models.FloatField()
+    #lowest price
+    lowest = models.FloatField()
+    #closing price
+    closing = models.FloatField()
+
 class Stock(models.Model):
     period = models.PositiveBigIntegerField(default = current_unix_time)
     price = models.FloatField()
