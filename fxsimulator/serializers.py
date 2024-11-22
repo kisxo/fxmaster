@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.core.cache import cache
-from .models import Order, User
+from .models import Order, User, Stock
 
 class OrderSerializer(serializers.ModelSerializer):
   class Meta:
@@ -32,3 +32,8 @@ class OrderSerializer(serializers.ModelSerializer):
     order = Order.objects.create(**data)
     
     return data
+  
+class StockSerializer(serializers.ModelSerializer):
+    class Meta:
+      model = Stock
+      fields = '__all__'
