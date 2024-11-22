@@ -21,3 +21,6 @@
 # Solve 404/403 error in SPA client side routing. Caused when page is refreshed or other route like '/foo/bar' is directly accessed instead of '/'
 
   -In nginx configuration file use `location / { ...... try_files $uri $uri/ /index.html }` instead of `location / { ...... index index.html }` as it catches any route after the '/' and forwards it to client side router in index.html. Now if any non valid route is accessed the client side router will be responsible for handing 404/403 errors and nginx does not gets involve.
+
+# JWT auth for websocket/channels in django with simplejwt
+  -To solve client independent websocket connection we use a JWT token instead of default session based auth for django. In this method we have to use a custom middleware for JWT auth and use it in `#asgi.py` and get the JWT token from the server by providing login details and set the returned JWT as a header with key `Authorization` and value `Bearer:{unique-JWT-token}`
