@@ -41,12 +41,16 @@ def forexSimulator():
 
     # Simulate GBM for 1 step of 1 minute
     dW = normal_random(0, math.sqrt(dt))  # Brownian motion increment
-    print(price)
+
+    highest_price = ( open_price * (1 + random.uniform(0.01, 0.02)))
+    lowest_price = ( open_price * (1 - random.uniform(0.01, 0.02)))
+    
     close_price = open_price * math.exp((mu - 0.5 * sigma**2) * dt + sigma * dW)  # Update price
 
     period = int(time.time() * 1000)
 
-    cache.set("last_price", close_price)
+    cache.set("close_price", close_price)
+    Forex(period = period, opening = open_price, highest = highest_price, lowest = lowest_price, closing = close_price).save()
 
     async_to_sync(channel_layer.group_send)(
         room_id,
@@ -55,8 +59,8 @@ def forexSimulator():
             "data": {
                 "period": period,
                 "opening": open_price,
-                "highest": 5,
-                "lowest": 5,
+                "highest": highest_price,
+                "lowest": lowest_price,
                 "closing": close_price,
             },
         }
