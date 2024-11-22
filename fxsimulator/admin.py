@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Order, Forex
+from .models import User, Order, Forex, Stock
 
 class CustomUserAdmin(UserAdmin):
     model = User
@@ -9,3 +9,4 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Order)
 admin.site.register(Forex)
+admin.site.register(Stock)
