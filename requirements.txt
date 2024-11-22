@@ -6,3 +6,5 @@ channels-redis
 celery
 redis
 django_celery_beat
+djangorestframework
+djangorestframework-simplejwt
