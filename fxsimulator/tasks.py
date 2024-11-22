@@ -4,7 +4,7 @@ from asgiref.sync import async_to_sync
 import random
 import time 
 import math
-from fxsimulator.models import Stock, Order, User
+from fxsimulator.models import Stock, Forex, Order, User
 from django.core.cache import cache
 
 channel_layer = get_channel_layer()
@@ -33,29 +33,31 @@ def forexSimulator():
 
     # Initialize variables
     try: 
-        price = cache.get("last_price")
-        if price is None:
-            price = S0
+        open_price = cache.get("close_price")
+        if open_price is None:
+            open_price = S0
     except:
-        price = S0  # Start with the initial price
+        open_price = S0  # Start with the initial price
 
     # Simulate GBM for 1 step of 1 minute
     dW = normal_random(0, math.sqrt(dt))  # Brownian motion increment
     print(price)
-    price = price * math.exp((mu - 0.5 * sigma**2) * dt + sigma * dW)  # Update price
+    close_price = open_price * math.exp((mu - 0.5 * sigma**2) * dt + sigma * dW)  # Update price
 
-    current_stock_price = price
-    current_period = int(time.time() * 1000)
+    period = int(time.time() * 1000)
 
-    cache.set("last_price", current_stock_price)
+    cache.set("last_price", close_price)
 
     async_to_sync(channel_layer.group_send)(
         room_id,
         {
             "type": "fxupdate",
             "data": {
-                "period": current_period,
-                "price": current_stock_price,
+                "period": period,
+                "opening": open_price,
+                "highest": 5,
+                "lowest": 5,
+                "closing": close_price,
             },
         }
     )
