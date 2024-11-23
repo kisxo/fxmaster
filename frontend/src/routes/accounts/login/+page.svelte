@@ -6,7 +6,7 @@
         axios.post('http://localhost:8000/_allauth/browser/v1/auth/login', {
             email,
             password
-        })
+        }, {withCredentials: true})
         .then(function (response) {
             console.log(response);
         })
