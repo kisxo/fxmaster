@@ -8,7 +8,9 @@ import json
 from django.forms.models import model_to_dict
 from .filters import IsOwnerFilterBackend
 from rest_framework import permissions, viewsets, generics, mixins
-from .serializers import OrderSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import OrderSerializer, StockSerializer
 
 def index(request):
     return render(request, "fxsimulator/index.html")
@@ -71,4 +73,16 @@ class OrderViewSet(viewsets.ReadOnlyModelViewSet, mixins.CreateModelMixin):
   queryset = Order.objects.all()
   filter_backends = [IsOwnerFilterBackend]
   serializer_class = OrderSerializer
-  
+
+
+class ListStockView(APIView):
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        stock_entries = Stock.objects.all()
+        stock_data = [[entry.period, entry.price] for entry in stock_entries]
+        return Response(stock_data)
