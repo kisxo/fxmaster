@@ -1,5 +1,5 @@
 <script>
-  import Highcharts, { chart } from 'highcharts/highstock';
+  import Highcharts, { chart, stockChart } from 'highcharts/highstock';
   import PriceIndicator from 'highcharts/modules/price-indicator';
   PriceIndicator(Highcharts);
   import Accessibility from 'highcharts/modules/accessibility';
@@ -9,13 +9,92 @@
   let { stockData } = $props();
   console.log(stockData);
 
+  function zoomUpdate(event) {
+    setTimeout(() => {
+      console.log("chart clickkkkk")
+      console.log(event)
+      var zoom_level = CustomStockChart.xAxis[0].getExtremes().max - CustomStockChart.xAxis[0].getExtremes().min
+      console.log(zoom_level)
+
+      if ( zoom_level < 310000)
+      {
+        CustomStockChart.xAxis[0].update({
+          overscroll: 80 * 1000
+        });
+      }
+      else if ( zoom_level < 910000)
+      {
+        CustomStockChart.xAxis[0].update({
+          overscroll: 250 * 1000
+        });
+      }
+      else if ( zoom_level < 3700000)
+      {
+        CustomStockChart.xAxis[0].update({
+          overscroll: 1000 * 1000
+        });
+      }
+      else
+      {
+        CustomStockChart.xAxis[0].update({
+          overscroll: '50%'
+        });
+      }
+
+    }, 250);
+  }
+
   let options = {
     title: {
         text: 'EURO / USD'
     },
+    credits: {
+      enabled: false
+    },
+    xAxis: {
+        overscroll: 100 * 1000,
+    },
+    rangeSelector: {
+        buttons: [{
+            count: 5,
+            type: 'minute',
+            text: '5M',
+        },
+        {
+            count: 15,
+            type: 'minute',
+            text: '15M',
+        },
+        {
+            count: 1,
+            type: 'hour',
+            text: '1H',
+        },
+        {
+            type: 'all',
+            text: 'All'
+        },
+        {
+            type: 'all',
+            text: 'Reset'
+        }],
+        inputEnabled: false,
+        selected: 0
+    },
     series: [{
       type: 'area',
       data: stockData,
+      lastPrice: {
+        color: '#FF7F7F',
+        enabled: true,
+        label: {
+          enabled: true,
+          backgroundColor: '#FF7F7F',
+          formatter: (value) => {
+              return value.toFixed(4);
+          },
+        }
+      },
       fillColor: {
         linearGradient: {
           x1: 0,
@@ -68,7 +147,7 @@
 </script>
 
 
-<div id="container" style="height: 400px; min-width: 310px"></div>
+<div on:click={zoomUpdate} id="container" style="height: 400px; min-width: 310px"></div>
 
 <style>
   /* your styles go here */
