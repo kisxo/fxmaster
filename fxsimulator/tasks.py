@@ -23,8 +23,8 @@ def normal_random(mu=0, sigma=1):
 
 
 @shared_task
-def forexSimulator():
-    # Parameters
+def priceSimulator():
+
     S0 = 100  # Initial stock price
     mu = 0.20  # Drift coefficient (annualized)
     sigma = 0.25  # Volatility (annualized)
@@ -33,24 +33,19 @@ def forexSimulator():
 
     # Initialize variables
     try: 
-        open_price = cache.get("close_price")
-        if open_price is None:
-            open_price = S0
+        last_price = cache.get("last_price")
+        if last_price is None:
+            last_price = S0
     except:
-        open_price = S0  # Start with the initial price
+        last_price = S0  # Start with the initial price
 
     # Simulate GBM for 1 step of 1 minute
     dW = normal_random(0, math.sqrt(dt))  # Brownian motion increment
-
-    highest_price = ( open_price * (1 + random.uniform(0.01, 0.02)))
-    lowest_price = ( open_price * (1 - random.uniform(0.01, 0.02)))
-    
-    close_price = open_price * math.exp((mu - 0.5 * sigma**2) * dt + sigma * dW)  # Update price
+    new_price = last_price * math.exp((mu - 0.5 * sigma**2) * dt + sigma * dW)  # Update price
 
     period = int(time.time() * 1000)
-
-    cache.set("close_price", close_price)
-    Forex(period = period, opening = open_price, highest = highest_price, lowest = lowest_price, closing = close_price).save()
+    Stock(price = new_price, period = period).save()
+    cache.set("last_price", new_price)
 
     async_to_sync(channel_layer.group_send)(
         room_id,
@@ -58,15 +53,11 @@ def forexSimulator():
             "type": "fxupdate",
             "data": {
                 "period": period,
-                "opening": open_price,
-                "highest": highest_price,
-                "lowest": lowest_price,
-                "closing": close_price,
+                "price": new_price,
             },
         }
     )
  
-
 @shared_task
 def stockSimulator():
     #price simulation start
