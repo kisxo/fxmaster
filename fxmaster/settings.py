@@ -62,8 +62,8 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,7 +74,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'fxmaster.urls'
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOWED_ORIGINS = [
+# "https://magicminute.online.com",
+# "http://localhost",
+# ]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^http:\/\/localhost\:[1-9][0-9]{3}$",
+    r"^https:\/\/\w+\.magicminute\.online$",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
     {
