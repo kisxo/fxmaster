@@ -19,19 +19,19 @@
       if ( zoom_level < 310000)
       {
         CustomStockChart.xAxis[0].update({
-          overscroll: 80 * 1000
+          overscroll: 100 * 1000
         });
       }
       else if ( zoom_level < 910000)
       {
         CustomStockChart.xAxis[0].update({
-          overscroll: 250 * 1000
+          overscroll: 330 * 1000
         });
       }
       else if ( zoom_level < 3700000)
       {
         CustomStockChart.xAxis[0].update({
-          overscroll: 1000 * 1000
+          overscroll: 1100 * 1000
         });
       }
       else
