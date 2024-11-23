@@ -76,9 +76,6 @@ class OrderViewSet(viewsets.ReadOnlyModelViewSet, mixins.CreateModelMixin):
 
 
 class ListStockView(APIView):
-
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
     def get(self, request, format=None):
         """
         Return a list of all users.
