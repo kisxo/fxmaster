@@ -19,15 +19,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fxmaster.settings')
 django_asgi_app = get_asgi_application()
 
 from fxmaster.routing import websocket_urlpatterns
-from fxmaster.channelsJwtMiddleware import JWTAuthMiddleware
 
 application = ProtocolTypeRouter(
     {
         "http": django_asgi_app,
-        "websocket": JWTAuthMiddleware(
-            URLRouter(
-                websocket_urlpatterns
-            )
+        "websocket": AllowedHostsOriginValidator(
+            AuthMiddlewareStack(URLRouter(websocket_urlpatterns))
         ),
     }
 )

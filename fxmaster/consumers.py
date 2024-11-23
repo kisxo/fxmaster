@@ -3,6 +3,11 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 class fxConsumer(AsyncWebsocketConsumer):
     async def connect(self):
+        self.user = self.scope["user"]
+        
+        if(not self.user.is_authenticated):
+            await self.close()
+
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = self.room_name
         # Join room group_adp

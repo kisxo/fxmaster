@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path, include
 from fxsimulator import views
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -26,7 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     # Include the allauth API endpoints:
-    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("_allauth/", include("allauth.headless.urls")),
 ]
