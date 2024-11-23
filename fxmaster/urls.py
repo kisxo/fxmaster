@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path, include
 from fxsimulator import views
+from .views import GetCSRFToken
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     # Include the allauth API endpoints:
     path("_allauth/", include("allauth.headless.urls")),
+    path("csrf/", GetCSRFToken.as_view()),
 ]
