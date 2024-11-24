@@ -16,7 +16,7 @@
 
   let navLinks = [
     { name: "Lobby", path: "/lobby"},
-    { name: "Profile", path: "/profile"},
+    { name: "Profile", path: "/accounts/profile"},
     { name: "Login",  path: "/accounts/login"},
     { name: "Logout",  path: "/accounts/logout"},
   ]
