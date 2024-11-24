@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import FxChart from "./FxChart.svelte";
+  import OrderMenu from "./OrderMenu.svelte";
 
   const {data} = $props();
   console.log(data.stockData);
@@ -11,8 +12,5 @@
   }
 </script>
 
-<h1> 
-  Lobby
-</h1>
-
 <FxChart stockData={data.stockData}/>
+<OrderMenu />
