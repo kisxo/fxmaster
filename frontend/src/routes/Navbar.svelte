@@ -17,7 +17,8 @@
   let navLinks = [
     { name: "Lobby", path: "/lobby"},
     { name: "Profile", path: "/profile"},
-    { name: "Logout",  path: "/logout"},
+    { name: "Login",  path: "/accounts/login"},
+    { name: "Logout",  path: "/accounts/logout"},
   ]
 
   let currentPage = "Profile";
