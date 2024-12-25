@@ -80,6 +80,7 @@ class ListStockView(APIView):
         """
         Return a list of all users.
         """
-        stock_entries = Stock.objects.all()
+        stock_entries = Stock.objects.all().order_by('-id')[:50000:-1]
+
         stock_data = [[entry.period, entry.price] for entry in stock_entries]
         return Response(stock_data)
