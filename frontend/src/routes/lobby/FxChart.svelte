@@ -72,10 +72,6 @@
         },
         {
             type: 'all',
-            text: 'All'
-        },
-        {
-            type: 'all',
             text: 'Reset'
         }],
         inputEnabled: false,
