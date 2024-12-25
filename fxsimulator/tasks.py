@@ -57,92 +57,20 @@ def priceSimulator():
             },
         }
     )
- 
+
 @shared_task
-def stockSimulator():
-    #price simulation start
-    try:
-        last_stock_price = Stock.objects.all().order_by('-period')[0:1].get().price
-    except:
-        print("no previous data")
-        last_stock_price = 300
-    
-    #variables for simulating GBM
-    mu = 0.2  # Drift coefficientig 
-    sigma = 0.8  # Volatility
-    dt = 0.050  # Time step
-
-    # Generate a standard normal random variable using Box-Muller transform
-    u1 = random.random()
-    u2 = random.random()
-    z = math.sqrt(-2.0 * math.log(u1)) * math.cos(2.0 * math.pi * u2)
-    
-    # Calculate the increment of the Wiener process
-    dW = z * math.sqrt(dt)
-    
-    # Calculate the next stock price
-    current_stock_price = last_stock_price * math.exp((mu - 0.5 * sigma**2) * dt + sigma * dW)
-    current_period = int(time.time() * 1000)
-
-    #store the new price in database
-    Stock(price = current_stock_price, period = current_period).save()
-    
-    #send a price update to users via channels, ie: websocket
-    async_to_sync(channel_layer.group_send)(
-        room_id,
-        {
-            "type": "fxupdate",
-            "data": {
-                "period": current_period,
-                "price": current_stock_price,
-            },
-        }
-    )
-    
-    #query fresh data from database
-    stock_entries = Stock.objects.all()
-    #format query data as per highcharts
-    stock_data = [[entry.period, entry.price] for entry in stock_entries]
-    #store the formated data in cache
-    cache.set("stock_data", stock_data, 5)
-    cache.set("current_stock", stock_entries.last())
-    #price simulation end
-    
+def pendingOrderProcessor():
     #order calculation start
-    current_stock = stock_entries.last()
-    orders = Order.objects.filter(end_period_id = current_stock.id)
-    
-    print("\nprocess\n")
+    current_stock = Stock.objects.last()
+
+    #orders = Order.objects.filter(closing_id <= current_stock.id)
+    orders = Order.objects.filter(closing_id__range=(0, current_stock.id)).filter(status = False)
+
+    print("\nprocessing\n")
     print(current_stock.id)
     print('\n')
     
     # process orders
     for order in orders:
-        print('processing orders')
-        order.end_period = current_stock.period
-        order.end_period_price = current_stock.price
-        user = User.objects.get(id = order.user_id.id)
-        
-        #case 1 price goes up
-        if order.start_period_price < order.end_period_price and order.order_side:
-          order.order_result = True
-          order.order_final_amount = order.order_amount * .8
-        # case 2 price goes down
-        elif order.start_period_price > order.end_period_price and not order.order_side:
-          order.order_result = True
-          order.order_final_amount = order.order_amount * .8
-        # case 3 price remains same
-        elif order.start_period_price == order.end_period_price:
-          order.order_result = True
-          order.order_final_amount = order.order_amount * .8
-        else:
-          order.order_result = False
-          order_final_amount = 0
-        
-        
-        user.balance = user.balance + order.order_final_amount
-        
-        order.order_status = True
-        order.save()
-        user.save()
-        
+        print('calculating order')
+        print(order)
