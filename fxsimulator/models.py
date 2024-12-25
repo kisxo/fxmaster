@@ -38,7 +38,8 @@ class Order(models.Model):
       "DOWN": "DOWN",
     }
     side = models.CharField(max_length=4, choices=side_choice)
-    amount = models.FloatField()
+    opening_amount = models.FloatField()
+    closing_amount = models.FloatField() 
     status = models.BooleanField(default=False)# update at closing
     
     #calculate values at closing
@@ -46,6 +47,7 @@ class Order(models.Model):
       "Pending": "Pending",
       "Profit": "Profit",
       "Loss": "Loss",
+      "Equal": "Equal",
     }
     result = models.CharField(max_length=7, choices=result_choice, default="Pending")#update at closing
     amount_diff = models.FloatField(default=None, null=True)#update at closing
